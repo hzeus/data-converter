@@ -1,9 +1,5 @@
-class String
-  def escapeHTML
-    self.gsub(/&/n, '&amp;').gsub(/\"/n, '&quot;').gsub(/>/n, '&gt;').gsub(/</n, '&lt;').gsub(/'/, '&#039;')
-  end
-end
-
+#encoding: utf-8
+require 'cgi'
 class DataConverter
   attr_reader :data
 
@@ -49,7 +45,7 @@ class DataConverter
       if check_data?(e)
         "<li>#{ convert(e) }</li>"
       else
-        "<li>#{ e.to_s.escapeHTML }</li>"
+        "<li>#{ CGI::escapeHTML e.to_s }</li>"
       end
     end
   end
@@ -57,11 +53,11 @@ class DataConverter
   def convert_to_dl_childs(data)
     childs = ""
     data.each_pair do | key, value |
-      childs += "<dt>#{ key.to_s.escapeHTML }</dt>\n"
+      childs += "<dt>#{ CGI::escapeHTML key.to_s }</dt>\n"
       if check_data?(value)
         childs += "<dd>#{ convert(value) }</dd>\n"
       else
-        childs += "<dd>#{ value.to_s.escapeHTML }</dd>\n"
+        childs += "<dd>#{ CGI::escapeHTML value.to_s }</dd>\n"
       end
     end
     childs
